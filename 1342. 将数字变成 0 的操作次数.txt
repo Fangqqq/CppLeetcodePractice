@@ -1,0 +1,22 @@
+https://leetcode.cn/problems/number-of-steps-to-reduce-a-number-to-zero/
+
+class Solution {
+public:
+    int numberOfSteps(int num) {
+        int time=0;
+        while(num)
+        {
+            if(num%2==0)
+            {
+                num/=2;
+                time++;
+            }
+            else
+            {
+                num--;
+                time++;
+            }
+        }
+    return time;
+    }
+};

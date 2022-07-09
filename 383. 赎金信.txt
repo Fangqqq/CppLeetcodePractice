@@ -1,0 +1,26 @@
+https://leetcode.cn/problems/ransom-note/
+
+
+class Solution {
+public:
+    bool canConstruct(string ransomNote, string magazine) {
+        for(int i=0;i<ransomNote.size();i++)
+        {
+            int time=0;
+            for(int j=0;j<magazine.size();j++)
+            {
+                if(ransomNote[i]==magazine[j])
+                {
+                    time++;
+                    magazine.erase(magazine.begin()+j);
+                    break;
+                }
+            }
+            if(time==0)
+            {
+            return false;
+            }
+        }
+        return true;
+    }
+};
