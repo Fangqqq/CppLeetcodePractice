@@ -1,0 +1,18 @@
+https://leetcode.cn/problems/middle-of-the-linked-list/
+
+
+
+class Solution {
+public:
+    ListNode* middleNode(ListNode* head) {
+        ListNode* low = head;
+        ListNode* fast = head;
+        //快指针每次走2步，慢指针每次走1步，当快指针走到末尾时慢指针正好走到中间。
+        while(fast!=NULL && (fast->next!=NULL))
+        {
+            fast=fast->next->next;
+            low=low->next;
+        }
+        return low;
+    }
+};

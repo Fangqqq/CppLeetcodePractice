@@ -1,0 +1,33 @@
+https://leetcode.cn/problems/valid-parentheses/
+
+
+
+class Solution {
+public:
+    stack<char> st;//创建栈
+    bool isValid(string s) {
+    if ((s.size()) % 2 == 1) {//字符串个数为奇数时，肯定不匹配
+        return false;
+    }
+
+    for(int i=0;i<s.size();i++)
+    {
+        if(s[i]=='('||s[i]=='{'||s[i]=='[') st.push(s[i]);//遇到左括号就入栈
+        else if(s[i]==')'){//遇到右括号时，应该看栈顶元素是否匹配
+            if(!st.empty() && st.top()=='(') st.pop();
+            else return false;
+        }
+        else if(s[i]=='}'){
+            if(!st.empty() && st.top()=='{') st.pop();
+            else return false;
+        }
+        else if(s[i]==']'){
+            if(!st.empty() && st.top()=='[') st.pop();
+            else return false;
+        }
+    }
+
+    return st.empty();//true的情况下结束循环后栈应该为空
+
+    }
+};

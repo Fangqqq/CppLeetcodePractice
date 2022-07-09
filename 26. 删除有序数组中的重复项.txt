@@ -1,0 +1,22 @@
+https://leetcode.cn/problems/remove-duplicates-from-sorted-array/
+
+
+//快慢双指针
+class Solution {
+public:
+    int removeDuplicates(vector<int>& nums) {
+        if(nums.size()==0)
+            return 0;
+
+        int low=0;//慢指针：指向答案的前一个位置
+        for(int fast=low+1;fast<nums.size();fast++)//快指针：扫描
+        {
+            //发现不重复项，复制到答案的位置，并且慢指针前进一步
+            if(nums[fast]!=nums[low])
+            {
+                nums[++low]=nums[fast];
+            }
+        }
+        return low+1;
+    }
+};
