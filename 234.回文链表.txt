@@ -1,0 +1,27 @@
+https://leetcode.cn/problems/palindrome-linked-list/
+
+
+//全部压入栈的做法
+
+class Solution {
+public:
+    bool isPalindrome(ListNode* head) {
+        stack<int> stk;
+        ListNode* cur=head;
+        while(cur!=NULL)
+        {
+            stk.push(cur->val);
+            cur=cur->next;
+        }
+        while(head!=NULL)
+        {
+            if(head->val!=stk.top())
+            {
+                return false;
+            }
+            head=head->next;
+            stk.pop();
+        }
+        return true;
+    }
+};
