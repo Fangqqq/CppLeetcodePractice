@@ -1,0 +1,50 @@
+https://leetcode.cn/problems/binary-tree-preorder-traversal/
+
+
+
+//非递归做法——根入栈弹出，循环先右再左入栈
+
+//先序：准备一个栈，先把根节点放入栈中，重复步骤：
+
+//1.从栈中弹出一个节点cur  2.打印（处理）cur  3.（如果有的话）先将右节点压入栈中，再将左节点压入，重复
+
+class Solution {
+public:
+    vector<int> preorderTraversal(TreeNode* root) {
+        stack<TreeNode*> st;
+        vector<int> v;
+        if(root==nullptr)
+            return v;
+        st.push(root);
+        while(!st.empty()){
+            root=st.top();
+            st.pop();
+            v.push_back(root->val);
+
+            if(root->right!=nullptr)
+            st.push(root->right);
+            if(root->left!=nullptr)
+            st.push(root->left);
+        }
+        return v;
+    }
+};
+
+
+________________________________________________
+
+//递归做法
+class Solution {
+public:
+    vector<int> v;
+    vector<int> preorderTraversal(TreeNode* root) {
+        if(root==NULL)
+        {
+            return v;
+        }
+        v.push_back(root->val);
+        preorderTraversal(root->left);
+        preorderTraversal(root->right);
+        return v;
+    }
+};

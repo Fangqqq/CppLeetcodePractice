@@ -1,0 +1,42 @@
+https://leetcode.cn/problems/binary-tree-inorder-traversal/
+
+//非递归遍历——压入栈
+class Solution {
+public:
+    vector<int> inorderTraversal(TreeNode* root) {
+        stack<TreeNode*> st;
+        vector<int> v;
+        if(root!=nullptr)
+        {
+            while(!st.empty()||root!=nullptr)
+            {
+                if(root!=nullptr)
+                {
+                    st.push(root);
+                    root=root->left;
+                }else{
+                    root=st.top();
+                    st.pop();
+                    v.push_back(root->val);
+                    root=root->right;
+                }
+            }
+        }
+        return v;
+    }
+};
+
+//递归遍历
+class Solution {
+public:
+    vector<int> v;
+    vector<int> inorderTraversal(TreeNode* root) {
+        if(root==nullptr)
+        return v;
+
+        inorderTraversal(root->left);
+        v.push_back(root->val);
+        inorderTraversal(root->right);
+        return v;
+    }
+};
