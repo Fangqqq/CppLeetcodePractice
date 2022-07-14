@@ -1,0 +1,59 @@
+https://leetcode.cn/problems/validate-binary-search-tree/solution/
+
+//递归
+在能向左树和右树要信息的情况下，列可能性：
+左树必须是搜索二叉树，并且  左树max值 < x
+右树必须是搜索二叉树， 并且 右树min值 > x
+
+这四个条件都成立整棵树才是搜索二叉树
+
+递归：对每一个节点的要求都是一样的，所以不管你是哪棵树，一律返回三个信息，即整棵树是不是搜索二叉树，整棵树的最小值和最大值
+
+递归返回值：左树要求和右树要求，求全集
+
+class Solution {
+public:
+
+    bool helper(TreeNode* root, long long lower, long long upper) {
+        if (root == nullptr) {
+            return true;
+        }
+        if (root -> val <= lower || root -> val >= upper) {
+            return false;
+        }
+        return helper(root -> left, lower, root -> val) && helper(root -> right, root -> val, upper);
+    }
+
+    bool isValidBST(TreeNode* root) {
+        return helper(root, LONG_MIN, LONG_MAX);
+    }
+
+};
+
+--------------------------------
+//判断搜索二叉树思路：中序遍历一下，结果一定是升序（有降序肯定不是搜索二叉树）
+
+//在中序遍历过程中，用一个全局变量用来记录上一次结点的值，看当前结点的值是否比上一次结点的值大，如果小于的话就不是搜索二叉树，大于的话就更新记录的值。
+
+
+class Solution {
+public:
+    long long vall=(long long)INT_MIN - 1;
+    bool isValidBST(TreeNode* root) {
+        if(root==nullptr){
+            return true;
+        }
+        bool isleftBST=isValidBST(root->left);
+        if(!isleftBST){
+            return false;
+        }
+        if(vall>=root->val){
+                return false;
+        }else{
+            vall=root->val;
+        }
+        return isValidBST(root->right);
+    }
+};
+
+
