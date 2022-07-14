@@ -1,0 +1,48 @@
+
+https://leetcode.cn/problems/balanced-binary-tree/
+
+
+
+
+#递归套路判断是不是平衡二叉树
+
+（基于能向左树要某些信息，向右树要某些信息的情况下，怎么罗列可能性。只有一种可能性就是三种条件都满足，不然就不是balanceTree）1.左子树是平衡二叉树 2.右子树是平衡二叉树 3.左子树和右子树高度差不能超过1
+
+信息结构体：
+
+左树需要知道它是不是平衡的？以及它的高度。
+右树需要知道它是不是平衡的？以及它的高度。
+
+因为左树和右树都是两个要求，所以递归函数的返回值得返回两值——是否平衡，高度多少
+
+
+
+class Solution {
+public
+    
+    class  Returntype{
+    public
+        Returntype(bool isB,int hei){
+            this-isBalanced=isB;
+            this-height=hei;
+        }
+
+        bool isBalanced;
+        int height;
+    };
+
+    bool isBalanced(TreeNode root) {
+        return process(root).isBalanced;
+    }
+    Returntype process(TreeNode root){
+        if(root==NULL){
+            return Returntype(true,0);
+        }
+        Returntype leftdata=process(root-left);
+        Returntype rightdata=process(root-right);
+        int height=max(leftdata.height,rightdata.height)+1;
+        bool isBalanced=leftdata.isBalanced&&rightdata.isBalanced&&abs          (leftdata.height-rightdata.height)2;
+        return Returntype(isBalanced,height);
+    }
+
+};

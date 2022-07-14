@@ -1,0 +1,36 @@
+https://leetcode.cn/problems/contains-duplicate/
+
+
+//遍历判断是否在哈希表中已经存在，若不存在则存入哈希表，已存在则有重复元素
+
+class Solution {
+public:
+    bool containsDuplicate(vector<int>& nums) {
+          unordered_set<int> s;
+          for(int i=0;i<nums.size();i++)
+          {
+              if(s.count(nums[i])==1)
+                return true;
+              s.insert(nums[i]);
+          }
+          return false;
+    }
+};
+
+————————————————————————————————————
+//排序后，遍历判断是否前后之前有相等的元素
+class Solution {
+public:
+    bool containsDuplicate(vector<int>& nums) {
+        sort(nums.begin(),nums.end());
+
+        for(int i=0;i<nums.size()-1;i++)
+        {
+            if(nums[i]==nums[i+1])
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+};
