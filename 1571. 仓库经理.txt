@@ -1,0 +1,10 @@
+https://leetcode.cn/problems/warehouse-manager/
+
+
+
+select  name as WAREHOUSE_NAME ,sum(units*num) as VOLUME 
+from Warehouse w,(select product_id,Width*Length*Height as num
+                    from Products
+                    )as p
+where w.product_id =p.product_id 
+group by name 
