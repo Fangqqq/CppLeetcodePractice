@@ -1,0 +1,72 @@
+https://leetcode.cn/problems/er-cha-shu-de-zui-jin-gong-gong-zu-xian-lcof/
+
+
+从根节点开始一层层向下遍历，遇到node1或node2或空就对应返回node1或node2或空；如果都没有就接着往下遍历，直到找到这几个，开始返回。
+
+返回的时候左子树不为空就返回左子树，右子树不为空就返回右子树，都为空就返回空。如果一个子树中既没有node1也没有node2，返回一定是null。如果发现左右子树都不为空，就返回该节点。
+
+class Solution {
+public:
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+        if(root==NULL || root== p || root==q){
+            return root;
+        }
+
+        TreeNode* leftReturn =lowestCommonAncestor(root->left,p,q);
+        TreeNode* rightReturn =lowestCommonAncestor(root->right,p,q);
+
+        if(leftReturn!=NULL && rightReturn!=NULL){
+            return root;
+        }
+        
+        //左右两子树，并不都有返回值
+        //1.左右都为空，返回空
+        //2.只有一个为空，返回不空的
+        return leftReturn==NULL? rightReturn:leftReturn;
+    }
+};
+
+-------------------------------
+将二叉树每个节点的父节点找出来并使用hashmap保存
+将node1节点到root节点的路线保存到一个hsahset中
+node2利用保存父节点的哈希表向上遍历，第一个遇到hashset中已有的节点，就是公共祖先节点
+
+class Solution {
+public:
+    void process(TreeNode* root, unordered_map <TreeNode*,TreeNode*> &fatherMap)
+    {
+        if(root==NULL||(root->left==NULL&&root->right==NULL)) {return;}
+        if(root->left!=NULL){
+            fatherMap.emplace(root->left,root);
+            process(root->left,fatherMap);
+        }
+        if(root->right!=NULL){
+            fatherMap.emplace(root->right,root);
+            process(root->right,fatherMap);
+        }
+    }
+
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+        unordered_map <TreeNode*,TreeNode*> fatherMap;
+        fatherMap.emplace(root,root);
+        process(root,fatherMap);
+
+        unordered_set<TreeNode*> set1;
+        TreeNode* cur=p;
+        while(cur!=fatherMap[cur]){
+            set1.emplace(cur);
+            cur=fatherMap[cur];
+        }
+        set1.emplace(root);
+
+        cur=q;
+        while(cur!=fatherMap[cur]){
+            if(set1.count(cur)){
+                return cur;
+            }else{
+                cur=fatherMap[cur];
+            }
+        }
+        return root;
+    }
+};

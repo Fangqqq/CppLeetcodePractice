@@ -1,0 +1,36 @@
+https://leetcode.cn/problems/inorder-successor-in-bst-ii/
+
+//1.X有右子树时，后继结点是右子树上的最左的结点
+
+//2.X无右子树时，后继结点是一直往上找遇到的第一个，是自己父节点的左子树的结点。找不到时，就是整棵树的最右节点情况，后继结点为空
+
+
+class Solution {
+public:
+    Node* inorderSuccessor(Node* node) {
+        if(node==NULL){
+            return node;
+        }
+        if(node->right!=NULL){//后继结点是右子树上的最左的结点
+            return getLeftMost(node->right);
+        }else{//无右子树
+            Node* parent =node->parent;
+            //当前节点是父节点的右孩子
+            while(node->parent!=NULL && parent->left!=node){
+                node=parent;
+                parent=node->parent;
+            }
+            return parent;
+        }
+    }
+
+    Node* getLeftMost(Node* node){
+        if(node==NULL){
+            return node;
+        }
+        while(node->left!=NULL){
+            node=node->left;
+        }
+        return node;
+    }
+};
