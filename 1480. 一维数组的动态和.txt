@@ -1,5 +1,25 @@
 https://leetcode.cn/problems/running-sum-of-1d-array/
 
+
+方法：原地修改
+
+每个元素等于前面所有元素的和加上当前元素
+可以从下标1开始遍历nums 数组
+
+
+class Solution {
+public:
+    vector<int> runningSum(vector<int>& nums) {
+        for(int i=1;i<nums.size();i++){
+            nums[i]+=nums[i-1];
+        }
+        return nums;
+    }
+};
+
+---------------------
+
+
 class Solution {
 public:
     vector<int> runningSum(vector<int>& nums) {

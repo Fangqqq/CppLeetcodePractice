@@ -1,0 +1,43 @@
+https://leetcode.cn/problems/sort-an-array/
+
+
+
+class Solution {
+    //处理arr[l....r]的函数
+    //默认以arr[r]做划分,arr[r]-->p   划分成<p p =p 三个区域
+    //返回p所在的位置
+    int partiton(vector<int>& nums,int l,int r){
+        int pivot=nums[r];//分界值
+        int i=l-1;
+        for(int j=l;j<=r-1;j++){
+            if(nums[j]<=pivot){
+                i=i+1;
+                swap(nums[i],nums[j]);
+            }
+        }
+        swap(nums[i+1],nums[r]);
+        return i+1;
+    }
+
+    int randomized_partition(vector<int>& nums,int l,int r){
+        int i=rand()%(r-l+1)+l;//对当前划分区间 [l,r]里的数等概率随机一个作为我们的主元
+        swap(nums[i],nums[r]);//和最右位置做交换
+        return partiton(nums,l,r);
+    }
+
+    void randomized_quicksort(vector<int>& nums,int l,int r){
+        //对 nums 数组里 [l,r]的部分进行排序
+        if(l<r){
+            int pos=randomized_partition(nums, l, r);//对 nums 数组里 [l,r][l,r] 的部分进行划分，并返回分界值的下标 pos
+            randomized_quicksort(nums,l,pos-1);//<区递归
+            randomized_quicksort(nums,pos+1,r);//>区递归
+        }
+    }
+
+public:
+    vector<int> sortArray(vector<int>& nums) {
+        srand((unsigned)time(NULL));
+        randomized_quicksort(nums,0,nums.size()-1);
+        return nums;
+    }
+};

@@ -1,0 +1,24 @@
+https://leetcode.cn/problems/find-pivot-index/
+
+方法一：前缀和
+
+记数组的全部元素之和为 total，当遍历到第 i个元素时，设其左侧元素之和为leftsum，因为左右侧和相等，利用此题的公式规律【2*leftsum+nums[i]=total】
+
+当中心索引左侧或右侧没有元素时，即为零个项相加，这在数学上称作「空和」（empty sum）。在程序设计中我们约定「空和是零」。
+
+因为可能是第一个元素，for循环里需要先if判断，再进行相加求leftsum
+
+class Solution {
+public:
+    int pivotIndex(vector<int>& nums) {
+        int  total=accumulate(nums.begin(), nums.end(), 0);
+        int leftsum=0;
+        for(int i=0;i<nums.size();i++){//当前来到第i个元素
+            if(leftsum*2+nums[i]==total){
+                return i;
+            }
+            leftsum+=nums[i];//不满足时将sum[i]的值加入leftsum，i继续遍历
+        }
+        return -1;
+    }
+};
