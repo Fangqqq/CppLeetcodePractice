@@ -1,13 +1,17 @@
 https://leetcode.cn/problems/merge-two-sorted-lists/
 
+方法二：迭代
+我们可以用迭代的方法来实现上述算法。当 l1 和 l2 都不是空链表时，判断 l1 和 l2 哪一个链表的头节点的值更小，将较小值的节点添加到结果里，
+当一个节点被添加到结果里之后，将对应链表中的节点向后移一位。
 
 class Solution {
 public:
     ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
+
         //哨兵节点 prehead ，在最后可以容易地返回合并后的链表。
         ListNode* preHead = new ListNode(-1);
-
         ListNode* list3 = preHead;
+
         while(list1!=NULL && list2!=NULL)
         {
             if(list1->val<=list2->val)
@@ -21,8 +25,38 @@ public:
             }
             list3=list3->next;
         }
+
         // 合并后list1和list2最多只有一个还未被合并完，直接将链表末尾指向未合并完的链表即可
         list3->next= list1==NULL? list2 : list1;
         return preHead->next;//返回开辟的链表头结点的下一个结点
+
     }
 };
+
+------------------------------------
+
+方法二：递归解法
+根据以上规律考虑本题目：
+
+终止条件：当两个链表都为空时，表示我们对链表已合并完成。
+如何递归：我们判断 l1 和 l2 头结点哪个更小，然后较小结点的 next 指针指向其余结点的合并结果。（调用递归）
+
+class Solution {
+public:
+    ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
+        if(list1==nullptr){
+            return list2;
+        }
+        if(list2==nullptr){
+            return list1;
+        }
+        if(list1->val<=list2->val){
+             list1->next= mergeTwoLists(list1->next,list2);
+             return list1;
+        }else {
+            list2->next= mergeTwoLists(list1,list2->next);
+            return list2;
+        }
+    }
+};
+
