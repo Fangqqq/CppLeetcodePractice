@@ -1,0 +1,53 @@
+https://leetcode.cn/problems/linked-list-cycle-ii/
+方法一：哈希表
+遍历链表中的每个节点，并将它记录下来；一旦遇到了此前遍历过的节点，就可以判定链表中存在环。借助哈希表可以很方便地实现。
+
+class Solution {
+public:
+    ListNode *detectCycle(ListNode *head) {
+         unordered_set<ListNode*> seen;
+         while(head!=NULL)
+         {
+             if(seen.count(head))
+             {
+                 return head;
+             }
+             seen.insert(head);
+             head=head->next;
+         }
+         return NULL;
+    }
+};
+-----------------------------------------
+
+方法二：快慢指针
+
+当发现slow 与fast 相遇时，再额外使用一个指针ptr。起始，它指向链表头部；随后，它和 \textit{slow}slow 每次向后移动一个位置。最终，它们会在入环点相遇。
+
+class Solution {
+public:
+    ListNode *detectCycle(ListNode *head) {
+        ListNode *slow=head;
+        ListNode *fast=head;
+
+        while (fast != nullptr) {
+            if (fast->next == nullptr) {
+                return nullptr;
+            }
+
+            slow = slow->next;
+            fast = fast->next->next;
+
+            if (fast == slow) {
+                ListNode *ptr = head;
+                while (ptr != slow) {
+                    ptr = ptr->next;
+                    slow = slow->next;
+                }
+                return ptr;
+            }
+        }
+        
+        return nullptr;
+    } 
+};
