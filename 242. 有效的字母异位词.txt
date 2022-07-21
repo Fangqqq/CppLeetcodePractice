@@ -1,0 +1,46 @@
+https://leetcode.cn/problems/valid-anagram/solution/
+
+
+方法一：
+t 是 s的异位词等价于「两个字符串中字符出现的种类和次数均相等」。
+class Solution {
+public:
+    bool isAnagram(string s, string t) {
+        unordered_map <char,int> mp;
+        for(auto chs:s){
+            ++mp[chs];
+        }
+        for(auto cht:t){
+            if(mp.count(cht)){
+                --mp[cht];
+                if(mp[cht]==0){
+                    mp.erase(cht);
+                }
+            }else{
+                return false;
+            }
+        }
+        if(mp.empty()){
+            return true;
+        }else{
+            return false;
+        }
+    }
+};
+
+
+---------------------
+方法二：排序
+t 是 s 的异位词等价于「两个字符串排序后相等」。因此我们可以对字符串 s 和 t 分别排序，看排序后的字符串是否相等即可判断。此外，如果 s 和 t的长度不同，t必然不是 s 的异位词。
+
+class Solution {
+public:
+    bool isAnagram(string s, string t) {
+        if (s.length() != t.length()) {
+            return false;
+        }
+        sort(s.begin(), s.end());
+        sort(t.begin(), t.end());
+        return s == t;
+    }
+};

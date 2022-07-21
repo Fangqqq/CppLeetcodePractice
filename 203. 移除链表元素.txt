@@ -1,0 +1,50 @@
+https://leetcode.cn/problems/remove-linked-list-elements/
+
+方法一：迭代
+
+用 temp 表示当前节点。如果temp 的下一个节点不为空且下一个节点的节点值等于给定的val，则需要删除下一个节点。
+删除下一个节点可以通过以下做法实现：temp.next=temp.next.next
+如果 temp 的下一个节点的节点值不等于给定的val，则保留下一个节点，将 temp 移动到下一个节点即可。
+当 temp 的下一个节点为空时，链表遍历结束，此时所有节点值等于val 的节点都被删除。
+
+
+class Solution {
+public:
+    ListNode* removeElements(ListNode* head, int val) {
+        ListNode* cur= new ListNode(1);
+        cur->next=head;
+        ListNode* curr=cur;
+
+        while(cur!=nullptr && cur->next!=nullptr){
+            if(cur->next->val==val){
+                cur->next=cur->next->next;
+            }else{
+                cur=cur->next;
+            }
+        }
+        return  curr->next;
+    }
+};
+
+---------------------------------------
+方法二：递归
+如果head 的节点值等于val，则head 需要被删除，因此删除操作后的头节点为head.next；
+如果head 的节点值不等于val，则 head 保留，因此删除操作后的头节点还是head。上述过程是一个递归的过程。
+
+递归的终止条件是 head 为空，此时直接返回head。
+当head 不为空时，递归地进行删除操作，然后判断head 的节点值是否等于val 并决定是否要删除head。
+
+
+
+class Solution {
+public:
+    ListNode* removeElements(ListNode* head, int val) {
+        if(head==nullptr){  //递归的终止条件是 head 为空
+            return head;
+        }
+        head->next=removeElements(head->next, val);
+        //如果head 的节点值不等于val，则 head 保留，因此删除操作后的头节点还是head
+        //如果head 的节点值等于val，则head 需要被删除
+        return head->val==val? head->next:head;
+    }
+};

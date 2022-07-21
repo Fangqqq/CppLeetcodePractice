@@ -1,26 +1,33 @@
 https://leetcode.cn/problems/ransom-note/
 
 
+方法：
+遍历第一个字符串，每次遍历初始化找没找到的标记。内层循环第二个字符串，在第二个字符串中找到的话，改变标记，清除第二个字符串中的该字符，结束此次循环。
+若内层循环结束，但标记没有改变，就是没有找到，直接返回false
+若所有循环结束，就是每一次循环都找到了，返回true
+
+
 class Solution {
 public:
     bool canConstruct(string ransomNote, string magazine) {
         for(int i=0;i<ransomNote.size();i++)
         {
-            int time=0;
+            bool tag=false;//标记是否找到
             for(int j=0;j<magazine.size();j++)
             {
                 if(ransomNote[i]==magazine[j])
                 {
-                    time++;
-                    magazine.erase(magazine.begin()+j);
+                    tag=true;//找到了改变标记
+                    magazine.erase(magazine.begin()+j);//去除magazine中此元素
                     break;
                 }
             }
-            if(time==0)
+            if(!tag)//跳出for循环但是未找到第i个元素
             {
             return false;
             }
         }
+        //可以遍历整个字符串证明每一个元素都找到了
         return true;
     }
 };

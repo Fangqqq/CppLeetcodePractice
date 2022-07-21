@@ -1,0 +1,31 @@
+https://leetcode.cn/problems/remove-duplicates-from-sorted-list/
+
+
+方法：迭代
+由于给定的链表是排好序的，因此重复的元素在链表中出现的位置是连续的，因此只需要对链表进行一次遍历，就可以删除重复的元素。
+指针cur 指向链表的头节点，随后开始对链表进行遍历。如果当前cur 与cur.next 对应的元素相同，那么我们就将 cur.next 从链表中移除；
+否则说明链表中已经不存在其它与 cur 对应的元素相同的节点，因此可以将cur 指向cur.next。
+
+细节
+
+遍历到链表的最后一个节点时，cur.next 为空节点，如果不加以判断，访问 cur.next 对应的元素会产生运行错误。
+因此只需要遍历到链表的最后一个节点，而不需要遍历完整个链表。
+
+
+
+
+
+class Solution {
+public:
+    ListNode* deleteDuplicates(ListNode* head) {
+        ListNode* cur=head;
+        while(cur!=nullptr&&cur->next!=nullptr){
+            if(cur->next->val==cur->val){
+                cur->next=cur->next->next;
+            }else{
+                cur=cur->next;
+            }
+        }
+        return head;
+    }
+};
