@@ -1,0 +1,39 @@
+方法一：暴力求解（超时）
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        int maxProfit=0;
+        for(int i=0;i<prices.size();i++){
+            for(int j=i+1;j<prices.size();j++){
+                if((prices[j]-prices[i])>maxProfit){
+                    maxProfit=(prices[j]-prices[i]);
+                }
+            }
+        }
+        return maxProfit;
+    }
+};
+
+
+
+方法二：DP (dynamic programming)
+
+DP的思路： 利用原问题与子问题的关系，将其变成 大问题的解 = 小问题的解的函数， 从而将问题变成size的扩展即可，当size到达最大后，原问题解决了
+
+用一个变量记录一个历史最低价格 minprice，可以假设股票是在那天买的。那么在第 i 天卖出股票能得到的利润就是 prices[i] - minprice。
+
+只需要遍历价格数组一遍，记录历史最低点，然后在每一天考虑这么一个问题：如果是在历史最低点买进的，那么我今天卖出能赚多少钱？当考虑完所有天数之时，就得到了最好的答案。
+
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        int maxProfit=0;//当前最大的利润
+        int minPrice=prices[0];//当前最便宜买入的价格
+
+        for(int i=1;i<prices.size();i++){
+            maxProfit=max(maxProfit,prices[i]-minPrice);
+            minPrice=min(minPrice,prices[i]);
+        }
+        return maxProfit;
+    }
+};

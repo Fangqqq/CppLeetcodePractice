@@ -22,7 +22,7 @@ public:
 
 方法二：快慢指针
 
-当发现slow 与fast 相遇时，再额外使用一个指针ptr。起始，它指向链表头部；随后，它和 \textit{slow}slow 每次向后移动一个位置。最终，它们会在入环点相遇。
+当发现slow 与fast 相遇时，再额外使用一个指针ptr。起始，它指向链表头部；随后，它和 slow 每次向后移动一个位置。最终，它们会在入环点相遇。
 
 class Solution {
 public:

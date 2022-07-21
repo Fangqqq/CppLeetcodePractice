@@ -1,0 +1,24 @@
+https://leetcode.cn/problems/intersection-of-two-arrays/
+
+
+方法一：哈希表
+nums1遍历进哈希表中去重，遍历nums2依次判断在哈希表中已存在，存在就存入nums3，并且清除哈希表中记录。
+
+class Solution {
+public:
+    vector<int> intersection(vector<int>& nums1, vector<int>& nums2) {
+        vector<int> nums3;
+        unordered_set<int> mp;
+        for(int i=0;i<nums1.size();i++){
+            mp.insert(nums1[i]);
+        }
+        for(int i=0;i<nums2.size();i++){
+            if(mp.count(nums2[i])){
+                nums3.push_back(nums2[i]);
+                mp.erase(nums2[i]);
+            }
+        }
+        return nums3;
+    }
+};
+
