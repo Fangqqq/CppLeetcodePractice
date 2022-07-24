@@ -1,6 +1,13 @@
 https://leetcode.cn/problems/binary-tree-inorder-traversal/
 
 //非递归遍历——压入栈
+
+递归的时候隐式地维护了一个栈，而我们在迭代的时候需要显式地将这个栈模拟出来，其他都相同
+
+二叉树的迭代就是使用循环的方式实现遍历；
+需要寻找到最后一个左节点，并添加到结果中；（该没有左节点，所以也为根节点）
+然后访问右节点。（右节点可能存在左节点和右节点，所以跟根节点的遍历一样处理）
+
 class Solution {
 public:
     vector<int> inorderTraversal(TreeNode* root) {

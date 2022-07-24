@@ -1,0 +1,57 @@
+https://leetcode.cn/problems/implement-queue-using-stacks/
+
+方法：双栈
+将一个栈当作输入栈，用于压入push 传入的数据；另一个栈当作输出栈，用于pop 和 peek 操作。
+
+每次 pop 或 peek 时，若输出栈为空则将输入栈的全部数据依次弹出并压入输出栈，这样输出栈从栈顶往栈底的顺序就是队列从队首往队尾的顺序。
+
+
+class MyQueue {
+public:
+        stack<int> st1;
+        stack<int> st2;
+
+    MyQueue() {
+        while(!st1.empty()){
+        st1.pop();
+        }
+        while(!st2.empty()){
+        st2.pop();
+        }
+    }
+    
+    void push(int x) {
+        st1.push(x);
+    }
+    
+    int pop() {
+        if(st2.empty()){
+            while(!st1.empty()){
+            st2.push(st1.top());
+            st1.pop();
+            }
+        }
+        int ans=st2.top();
+        st2.pop();
+        return ans;
+    }
+    
+    int peek() {
+        if(st2.empty()){
+            while(!st1.empty()){
+            st2.push(st1.top());
+            st1.pop();
+            }
+        }
+        int ans=st2.top();
+        return ans;
+    }
+    
+    bool empty() {
+        if(st1.empty()&&st2.empty()){
+            return true;
+        }else{
+            return false;
+        }
+    }
+};
