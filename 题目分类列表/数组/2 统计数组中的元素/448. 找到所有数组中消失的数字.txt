@@ -1,0 +1,53 @@
+https://leetcode.cn/problems/find-all-numbers-disappeared-in-an-array/
+
+方法：哈希表
+原数组加入哈希表，遍历1-N判断数字是否在哈希表中存在
+class Solution {
+public:
+    vector<int> findDisappearedNumbers(vector<int>& nums) {
+        unordered_set<int> numss;
+        vector<int> ans;
+        for(int i=0;i<nums.size();i++){
+            numss.insert(nums[i]);
+        }
+        for(int i=0;i<nums.size();i++){
+            if(numss.count(i+1)==0){
+                ans.push_back(i+1);
+            }
+        }
+        return ans;
+    }
+};
+-----------------------------
+方法二：原地修改
+
+nums 的长度恰好也为 n，让 nums 充当哈希表
+
+由于nums 的数字范围均在[1,n] 中，可以利用这一范围之外的数字，来表达「是否存在」的含义。
+
+遍历nums，每遇到一个数 x，就让nums[x−1] 增加 n。由于 nums 中所有数均在[1,n] 中，增加以后，这些数必然大于 n。
+最后遍历 nums，若 nums[i] 未大于 n，就说明没有遇到过数i+1。这样就找到了缺失的数字。
+
+注意，遍历到某个位置时，其中的数可能已经被增加过，因此需要对 n 取模来还原出它本来的值。
+
+
+class Solution {
+public:
+    vector<int> findDisappearedNumbers(vector<int>& nums) {
+        int n=nums.size();
+        for(int num:nums){
+            int x=(num-1)%n;//得到num值对应的下标。其中的数可能已经被增加过，因此需要对 n 取模来还原出它本来的值。
+
+            nums[x]=nums[x]+n;//num-1下标位置的数+n放入nums数组中
+        }
+        vector<int> ans;
+        for(int i=0;i<n;i++){
+            //因为值是[1,n]而第一个for循环经过if判断后筛选得到
+            //的是有问题的下标即从0开始但值从1，所以下面用i+1
+            if(nums[i]<=n){
+                ans.push_back(i+1);//i位置上的值i+1未曾出现过
+            }
+        }
+        return ans;
+    }
+};
