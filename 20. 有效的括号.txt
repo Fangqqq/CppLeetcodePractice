@@ -1,7 +1,10 @@
 https://leetcode.cn/problems/valid-parentheses/
 
 
-方法：
+方法：栈
+从头到尾遍历字符串，遇到左括号，存放入栈中；遇到右括号，栈必须不为空，弹出栈顶元素判断是否匹配
+结束循环后栈应该为空
+
 class Solution {
 public:
     stack<char> st;//创建栈

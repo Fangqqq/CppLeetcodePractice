@@ -31,7 +31,7 @@ public:
         dp[0]=nums[0];
         int result=dp[0];
         for(int i=1;i<nums.size();i++){
-            dp[i]=max(dp[i-1]+nums[i],nums[i]);
+            dp[i]=max(dp[i-1]+nums[i],nums[i]);//表示nums中以nums[i]结尾的最大子序和。dp[i]不是当前数字，就是与前面的最大子序和的和。
             result=max(dp[i],result);
         }
         return result;
@@ -41,6 +41,12 @@ public:
 ------------------------------
 方法三：贪心法
 从左往右迭代，一个个数字过去如果sum<0,重新开始找子序串
+
+贪心抛弃，当tmp值加到负值(为0其实也可以抛弃，因为没有用处)的时候，
+那么前面的子串和后面的字符组合只会造成负面影响(贪心负影响,通俗的说就是前面子串和后面组合还不如后面本身大)，
+因此，贪心地舍弃掉前面的子串，重新建立子串找最大值
+
+
 class Solution {
 public:
     int maxSubArray(vector<int>& nums) {
