@@ -1,0 +1,32 @@
+https://leetcode.cn/problems/add-binary/
+
+本题给出的二进制数字是字符串形式，不可以转化成 int 型，因为可能溢出；
+两个「加数」的字符串长度可能不同；
+在最后，如果进位 carry 不为 0，那么最后需要计算进位；
+向结果字符串 res 拼接的顺序是向后拼接，返回时需要把 res 反转 。
+
+while (i >= 0 || j >= 0 || carry != 0)含义：
+字符串 a 和 b 只要有一个没遍历完，那么就继续遍历；
+如果字符串 a 和 b 都遍历完了，但是最后留下的进位 carry != 0，那么需要把进位也保留到结果中。
+取 digit 的时候，如果字符串 a 和 b 中有一个已经遍历完了（即 i <= 0 或者 j<=0），则认为 a 和 b 的对应位置是 0
+
+public:
+    string addBinary(string a, string b) {
+        string s;
+        int i=a.size()-1;
+        int j=b.size()-1;
+        int add=0;
+        while(i>=0 || j>=0 || add!=0){
+            int x= i>=0? a[i]-'0':0;
+            int y= j>=0? b[j]-'0':0;
+            int sum=x+y+add;
+            add=sum>=2? 1:0;
+            sum=sum>=2? sum-2:sum;
+            s+=to_string(sum);
+            i--;
+            j--;
+        }
+        reverse(s.begin(),s.end());
+        return s;
+    }
+};

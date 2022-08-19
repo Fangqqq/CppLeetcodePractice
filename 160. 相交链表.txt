@@ -1,19 +1,12 @@
-
 https://leetcode.cn/problems/intersection-of-two-linked-lists/
 
 方法一：哈希集合
 
-
 判断两个链表是否相交，可以使用哈希集合存储链表节点。
-
-首先遍历链表headA，并将链表headA 中的每个节点加入哈希集合中。然后遍历链表headB，对于遍历到的每个节点，判断该节点是否在哈希集合中：
-
+首先遍历链表headA，并将链表headA中的每个节点加入哈希集合中。然后遍历链表headB，对于遍历到的每个节点，判断该节点是否在哈希集合中：
 如果当前节点不在哈希集合中，则继续遍历下一个节点；
-
 如果当前节点在哈希集合中，则后面的节点都在哈希集合中，即从当前节点开始的所有节点都在两个链表的相交部分，因此在链表headB 中遍历到的第一个在哈希集合中的节点就是两个链表相交的节点，返回该节点。
-
-如果链表headB 中的所有节点都不在哈希集合中，则两个链表不相交，返回 null。
-
+如果链表headB中的所有节点都不在哈希集合中，则两个链表不相交，返回null。
 
 class Solution {
 public:
@@ -39,3 +32,20 @@ public:
 };
 
 
+方法二：双指针
+思路：用双指针pa 、pb循环俩个链表，链表A循环结束就循环链表B，链表A循环结束就循环链表B，当pa == pb时就是交点，因为两个指针移动的步数一样
+
+class Solution {
+public:
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+        if(headA==NULL || headB==NULL){
+            return NULL;
+        }
+        ListNode* pa=headA,*pb=headB;
+        while(pa!=pb){
+            pa = (pa==NULL) ? headB : pa->next;
+            pb = (pb==NULL) ? headA : pb->next;
+        }
+        return pa;
+    }
+};

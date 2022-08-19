@@ -9,7 +9,8 @@ class Solution {
 public:
     stack<char> st;//创建栈
     bool isValid(string s) {
-    if ((s.size()) % 2 == 1) {//字符串个数为奇数时，肯定不匹配
+
+    if ((s.size()) % 2) {//字符串个数为奇数时，肯定不匹配
         return false;
     }
 
@@ -31,6 +32,5 @@ public:
     }
 
     return st.empty();//true的情况下结束循环后栈应该为空
-
     }
 };

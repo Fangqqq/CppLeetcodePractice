@@ -3,6 +3,7 @@ https://leetcode.cn/problems/maximum-subarray/
 
 方法一：暴力求解（超时）
 双重遍历寻找所有可能的子序和，求得其中最大值
+
 class Solution {
 public:
     int maxSubArray(vector<int>& nums) {
@@ -45,7 +46,6 @@ public:
 贪心抛弃，当tmp值加到负值(为0其实也可以抛弃，因为没有用处)的时候，
 那么前面的子串和后面的字符组合只会造成负面影响(贪心负影响,通俗的说就是前面子串和后面组合还不如后面本身大)，
 因此，贪心地舍弃掉前面的子串，重新建立子串找最大值
-
 
 class Solution {
 public:

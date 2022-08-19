@@ -1,5 +1,25 @@
 https://leetcode.cn/problems/climbing-stairs/
+方法：递归
+用f(x) 表示爬到第 x 级台阶的方案数，考虑最后一步可能跨了一级台阶，也可能跨了两级台阶
+数学归纳法得出，有n阶台阶那么就是 n - 1 阶台阶和 n - 2 阶台阶爬上楼顶的方法的和。
+公式： f(n) = f(n - 1) + f(n - 2) , 就是菲波那切数列数量求和
+时间复杂度： O(2^n) ，每一层递归的复杂度是上一层递归的2倍
+空间复杂度： O(n) , n是递归的层次
 
+class Solution {
+public:
+    int climbStairs(int n) {
+        if(n==1) return 1;
+        if(n==2) return 2;
+        else return climbStairs(n-1)+climbStairs(n-2);
+    }
+};
+
+方法：动态规划
+由于f(x) 只和 f(x−1) 与f(x−2) 有关，可以用「滚动数组思想」把空间复杂度优化成O(1)。
+复杂度分析
+时间复杂度：循环执行 n 次，每次花费常数的时间代价，故渐进时间复杂度为O(n)。
+空间复杂度：只用了常数个变量作为辅助空间，故渐进空间复杂度为O(1)。
 
 class Solution {
 public:

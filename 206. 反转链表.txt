@@ -1,24 +1,9 @@
 https://leetcode.cn/problems/reverse-linked-list/
 
 方法一：迭代
-
 在遍历链表时，将当前节点的next指针改为指向前一个节点。
-
 由于节点没有引用其前一个节点，因此必须事先存储其前一个节点。在更改引用之前，还需要存储后一个节点。最后返回新的头引用。
 
-方法二：递归
-
-递归的两个条件：
-
-终止条件是当前节点或者下一个节点==null
-在函数内部，改变节点的指向，也就是 head 的下一个节点指向 head 递归函数那句
-
-head.next.next = head 就是 head 的下一个节点指向head。
-递归函数中每次返回的 cur 就是最后一个节点，在递归函数内部，改变的是当前节点的指向。
-
-
-
-//迭代法
 class Solution {
 public:
     ListNode* reverseList(ListNode* head) {
@@ -27,7 +12,7 @@ public:
 
         while(curr){
             ListNode * nextnode=curr->next;//记录当前节点的下一个节点
-            curr->next=prev;//将当前节点的 next 指针改为指向前一个节点
+            curr->next=prev; //将当前节点的 next 指针改为指向前一个节点
             //前移一个节点
             prev=curr;
             curr=nextnode;
@@ -37,7 +22,14 @@ public:
 };
 
 ------------------------------------------
- //递归法
+
+方法二：递归
+递归的两个条件：
+终止条件是当前节点或者下一个节点==null
+在函数内部，改变节点的指向head->next->next = head 就是 head 的下一个节点指向head。
+递归函数中每次返回的 cur 就是最后一个节点，在递归函数内部，改变的是当前节点的指向。
+
+//递归法
 class Solution {
 public:
     ListNode* reverseList(ListNode* head) {
@@ -48,10 +40,9 @@ public:
         }
         //这里的p就是最后一个节点
         ListNode* p = reverseList(head->next);
-
         head->next->next = head;
         head->next = nullptr;//防止链表循环，需要将head.next设置为空
-		//每层递归函数都返回p，也就是最后一个节点
+        //每层递归函数都返回p，也就是最后一个节点
         return p;
     }
 };

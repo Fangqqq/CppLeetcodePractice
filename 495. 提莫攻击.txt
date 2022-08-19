@@ -1,0 +1,22 @@
+https://leetcode.cn/problems/teemo-attacking/
+
+
+方法：一次遍历
+时间间隔大于持续时间时，中毒总和应加持续时间；小于等于时，中毒总和应加时间间隔
+最后返回结果前，应该加上最后一次中毒时间（一次持续时间）。
+
+
+class Solution {
+public:
+    int findPoisonedDuration(vector<int>& timeSeries, int duration) {
+        int sum=0;
+        for(int i=0;i<timeSeries.size()-1;i++){
+            if(timeSeries[i+1]-timeSeries[i]>duration){
+                sum+=duration;
+            }else{
+                sum+=timeSeries[i+1]-timeSeries[i];
+            }
+        }
+        return sum+=duration;
+    }
+};
