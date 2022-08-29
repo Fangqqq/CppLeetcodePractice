@@ -1,3 +1,45 @@
+方法一：基于快速排序的选择方法
+
+可以用快速排序来解决这个问题，先对原数组排序，再返回倒数第 k 个位置，这样平均时间复杂度是 O(nlogn)，但其实可以做的更快。
+每次经过「划分」操作后，一定可以确定一个元素的最终位置，即 x 的最终位置为 q，并且保证 a[l⋯q−1] 中的每个元素小于等于a[q]，且a[q] 小于等于a[q+1⋯r] 中的每个元素。所以只要某次划分的q 为倒数第k 个下标的时候，就已经找到了答案。 只关心这一点，至于a[l⋯q−1] 和 a[q+1⋯r] 是否是有序的，不关心。
+因此可以改进快速排序算法来解决这个问题：在分解的过程当中，会对子数组进行划分，如果划分得到的 q 正好就是需要的下标，就直接返回 a[q]；否则，如果 q 比目标下标小，就递归右子区间，否则递归左子区间。这样就可以把原来递归两个区间变成只递归一个区间，提高了时间效率。这就是「快速选择」算法。
+可以引入随机化来加速这个过程，它的时间代价的期望是 O(n)
+
+class Solution {
+public:
+    int quickSelect(vector<int>& a, int l, int r, int index) {
+        int q = randomPartition(a, l, r);
+        if (q == index) {
+            return a[q];
+        } else {
+            return q < index ? quickSelect(a, q + 1, r, index) : quickSelect(a, l, q - 1, index);
+        }
+    }
+
+    int randomPartition(vector<int>& a, int l, int r) {
+        int i = rand() % (r - l + 1) + l;
+        swap(a[i], a[r]);
+        return partition(a, l, r);
+    }
+
+    int partition(vector<int>& a, int l, int r) {
+        int x = a[r], i = l - 1;
+        for (int j = l; j < r; ++j) {
+            if (a[j] <= x) {
+                swap(a[++i], a[j]);
+            }
+        }
+        swap(a[i + 1], a[r]);
+        return i + 1;
+    }
+
+    int findKthLargest(vector<int>& nums, int k) {
+        srand(time(0));
+        return quickSelect(nums, 0, nums.size() - 1, nums.size() - k);
+    }
+};
+
+————————————————————————————————
 class Solution {
 public:
     int findKthLargest(vector<int>& nums, int k) {
@@ -5,9 +47,8 @@ public:
         return nums[k-1];
     }
 };
-
 ————————————————————————————————
-//优先队列-小顶堆
+//优先队列-小顶堆  只有k个元素的最小堆
 class Solution {
 public:
     int findKthLargest(vector<int>& nums, int k) {

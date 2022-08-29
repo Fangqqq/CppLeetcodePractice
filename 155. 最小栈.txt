@@ -1,0 +1,41 @@
+https://leetcode.cn/problems/min-stack/
+
+方法：辅助栈
+栈结构先进后出的性质。
+对于栈来说，如果一个元素 a 在入栈时，栈里有其它的元素 b, c, d，那么无论这个栈在之后经历了什么操作，只要 a 在栈中，b, c, d 就一定在栈中，因为在 a 被弹出之前，b, c, d 不会被弹出。
+因此，在操作过程中的任意一个时刻，只要栈顶的元素是 a，就可以确定栈里面现在的元素一定是 a, b, c, d。
+那么，可以在每个元素 a 入栈时把当前栈的最小值 m 存储起来。在这之后无论何时，如果栈顶元素是 a，就可以直接返回存储的最小值 m。
+
+按照上面的思路，只需要设计一个数据结构，使得每个元素 a 与其相应的最小值 m 时刻保持一一对应。因此可以使用一个辅助栈，与元素栈同步插入与删除，用于存储与每个元素对应的最小值。
+当一个元素要入栈时，取当前辅助栈的栈顶存储的最小值，与当前元素比较得出最小值，将这个最小值插入辅助栈中；
+当一个元素要出栈时，把辅助栈的栈顶元素也一并弹出；
+在任意一个时刻，栈内元素的最小值就存储在辅助栈的栈顶元素中。
+
+
+class MinStack {
+public:
+    stack<int> st;
+    stack<int> min_stack;//辅助栈
+
+    MinStack() {
+        min_stack.push(INT_MAX);
+    }
+    
+    void push(int val) {
+        st.push(val);
+        min_stack.push(min(val,min_stack.top()));
+    }
+    
+    void pop() {
+        st.pop();
+        min_stack.pop();
+    }
+    
+    int top() {
+        return st.top();
+    }
+    
+    int getMin() {
+        return min_stack.top();
+    }
+};

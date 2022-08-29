@@ -1,7 +1,9 @@
 https://leetcode.cn/problems/palindrome-linked-list/
 
-
-//全部压入栈的做法
+方法：全部压入栈的做法
+把链表的全部内容依次放入栈中，再依次弹出栈中元素，并与链表依次进行比较，如果都相等，那么为回文结构，否则不是
+时间复杂度：O(N)
+空间复杂度：O(N)
 
 class Solution {
 public:
@@ -25,3 +27,42 @@ public:
         return true;
     }
 };
+
+
+方法：将值复制到数组中后用双指针法
+一共为两个步骤：
+复制链表值到数组列表中。
+使用双指针法判断是否为回文。
+
+class Solution {
+public:
+    bool isPalindrome(ListNode* head) {
+        vector<int> v;
+        ListNode* cur=head;
+
+        while(cur!=nullptr){
+            v.push_back(cur->val);
+            cur=cur->next;
+        }
+
+        for(int i=0,j=v.size()-1;i<j;i++,j--){
+            if(v[i]!=v[j]){
+                return false;
+            }
+        }
+        return true;
+    }
+};
+
+
+方法：快慢指针 + 栈
+只把链表的右侧内容依次放入栈中，再依次弹出栈中元素，并与链表左侧依次进行比较，如果都相等，那么为回文结构，否则不是
+通过快慢指针找到中点：
+快指针一次走两步，慢指针一次走一步，当快指针走到结尾时，慢指针走到一半，然后把慢指针后面的部分，放到栈中
+时间复杂度：O(N)
+空间复杂度：O(N/2)
+
+方法：只用有限个指针
+改变链表右侧区域，使整个右半区域反转，最后指向中间结点；利用指针分别从两端移动，每移动一次比较两值是否一样。返回true或false之前把链表恢复成原来的样子。
+空间复杂度：O(1)
+
