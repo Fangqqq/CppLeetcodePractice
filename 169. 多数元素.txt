@@ -1,11 +1,27 @@
 https://leetcode.cn/problems/majority-element/
 
-
-
+//排序后输出中间位置的元素
 class Solution {
 public:
     int majorityElement(vector<int>& nums) {
         sort(nums.begin(),nums.end());
         return nums[nums.size()/2];
+    }
+};
+
+//依次存入unordered_map容器中，返回对应的value值大于nums元素个数一半的key
+class Solution {
+public:
+    int majorityElement(vector<int>& nums) {
+        unordered_map<int,int>mp;
+        for(int num:nums){
+                mp[num]++;
+        }
+        for(int num:nums){
+            if(mp[num]>nums.size()/2){
+                return num;
+            }
+        }
+        return 0;
     }
 };

@@ -1,0 +1,29 @@
+https://leetcode.cn/problems/reverse-integer/
+
+记 ans 为翻转后的数字，为完成翻转，可以重复「弹出」x 的末尾数字，将其「推入」ans 的末尾，直至 x 为 0。
+
+要在没有辅助栈或数组的帮助下「弹出」和「推入」数字，可以使用如下数学方法：
+// 弹出 x 的末尾数字 digit
+digit = x % 10
+x /= 10
+// 将数字 digit 推入 rev 末尾
+rev = rev * 10 + digit
+题目需要判断反转后的数字是否超过 32 位有符号整数的范围 ，因此需要在「推入」数字之前，判断是否满足若该不等式不成立则返回 0。
+
+
+class Solution {
+public:
+    int reverse(int x) {
+        int ans=0;
+        while (x != 0) {
+        int k = 0;
+        if (ans < INT_MIN / 10 || ans > INT_MAX / 10) {
+                return 0;
+            }
+        k = x % 10;
+        x /= 10;
+        ans = ans * 10 + k;
+        }
+    return ans;
+    }
+};

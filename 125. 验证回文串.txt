@@ -1,0 +1,80 @@
+方法一：筛选 + 判断
+最简单的方法是对字符串 s 进行一次遍历，并将其中的字母和数字字符进行保留，放在另一个字符串 sgood 中。只需要判断 sgood 是否是一个普通的回文串即可。
+判断的方法有两种。第一种是使用语言中的字符串翻转 API 得到 sgood 的逆序字符串sgood_rev，只要这两个字符串相同，那么sgood 就是回文串。
+
+class Solution {
+public:
+    bool isPalindrome(string s) {
+        string sgood;
+        for (char ch: s) {
+            if (isalnum(ch)) {
+                sgood += tolower(ch);
+            }
+        }
+        string sgood_rev(sgood.rbegin(), sgood.rend());
+        return sgood == sgood_rev;
+    }
+};
+
+
+方法二：使用双指针
+初始时，左右指针分别指向 sgood 的两侧，
+随后我们不断地将这两个指针相向移动，每次移动一步，并判断这两个指针指向的字符是否相同。
+class Solution {
+public:
+    bool isPalindrome(string s) {
+        string sgood;
+        for (char ch: s) {
+            if (isalnum(ch)) {
+                sgood += tolower(ch);
+            }
+        }
+        int n = sgood.size();
+        int left = 0, right = n - 1;
+        while (left < right) {
+           if (sgood[left] != sgood[right]) {
+                return false;
+            }
+            ++left;
+            --right;
+        }
+        return true;
+    }
+};
+
+//自己写的：
+
+class Solution {
+public:
+    bool isPalindrome(string s) {
+        vector<char> v;
+        for(char ch:s){
+            if((ch>='a' && ch<='z') || (ch>='A' && ch<='Z')||((ch>='0' && ch<='9')))           {
+                v.push_back(toupper(ch));
+            }
+        }
+        if(v.size()==1){
+            return true;
+        }
+        for(int i=0,j=v.size()-1;i<j;i++,j--){
+            if(v[i]!=v[j]){
+                return false;
+            }
+        }
+        return true;
+    }
+};
+
+
+补充：c++中逆序字符串：
+使用头文件<algorithm>中的reverse(_BIter, _BIter)，函数传入的参数是两个迭代器，分别指向字符串的第一个元素和末尾。
+
+#include <algorithm>
+#include <string>
+    reverse(str.begin(), str.end());
+
+第三种：使用string类中的逆向迭代器 rbegin()和rend()。注：如果想要反转vector对象中的元素也可用这种方法，利用构造函数构造一个vector对象。
+
+#include <string>
+    string strReverse(str.rbegin(), str.rend());
+    
